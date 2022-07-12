@@ -22,6 +22,7 @@ extension PostEntity: DomainConvertible {
              title: title,
              body: body,
              isFavorite: false,
-             user: nil)
+             user: nil,
+             comments: nil)
     }
 }

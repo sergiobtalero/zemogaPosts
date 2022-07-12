@@ -163,6 +163,18 @@ extension PersistenceManager {
         
         return newCompany
     }
+    
+    @discardableResult
+    public func createComment(from entity: CommentEntity) -> CommentCDEntity {
+        let newComment = CommentCDEntity(context: managedObjectContext)
+        newComment.postId = Int32(entity.postId)
+        newComment.id = Int32(entity.id)
+        newComment.name = entity.name
+        newComment.email = entity.email
+        newComment.body = entity.body
+        
+        return newComment
+    }
 }
 
 // MARK: - Fetch methods
@@ -190,5 +202,17 @@ extension PersistenceManager {
             throw PersistenceManagerError.missingRecord
         }
         result.setValue(user, forKey: "user")
+    }
+    
+    public func updatePost(id: Int32,
+                           comments: [CommentCDEntity]) throws {
+        let fetchRequest: NSFetchRequest<PostCDEntity> = PostCDEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %i", id)
+        
+        guard let result = try? managedObjectContext.fetch(fetchRequest).first else {
+            throw PersistenceManagerError.missingRecord
+        }
+        let commentsSet = NSSet(array: comments)
+        result.setValue(commentsSet, forKey: "comments")
     }
 }

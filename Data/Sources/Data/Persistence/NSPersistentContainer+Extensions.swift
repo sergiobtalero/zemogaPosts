@@ -9,13 +9,8 @@ import CoreData
 
 extension NSPersistentContainer {
     static let main: NSPersistentContainer = {
-//        let bundleIdentifier = "com.sergiobtalero.Data"
         let modelName = "ZemogaPosts"
         
-//        guard let url = Bundle(identifier: bundleIdentifier)?.url(forResource: modelName, withExtension: "momd"),
-//              let managedObjectModel = NSManagedObjectModel(contentsOf: url)else {
-//                  fatalError("Could not load managed object model")
-//              }
         guard let url = Bundle.module.url(forResource: modelName, withExtension: "momd"),
               let managedObjectModel = NSManagedObjectModel(contentsOf: url)else {
             fatalError("Could not load managed object model")

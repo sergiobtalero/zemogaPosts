@@ -10,6 +10,7 @@ import Foundation
 enum PostEndpoint {
     case list
     case user(Int)
+    case comments(Int)
 }
 
 extension PostEndpoint: Endpoint {
@@ -17,6 +18,7 @@ extension PostEndpoint: Endpoint {
         switch self {
         case .list: return .get
         case .user: return .get
+        case .comments: return .get
         }
     }
     
@@ -24,6 +26,7 @@ extension PostEndpoint: Endpoint {
         switch self {
         case .list: return "/posts"
         case let .user(id): return "/users/\(id)"
+        case let .comments(postId): return "/posts/\(postId)/comments"
         }
     }
     
@@ -31,6 +34,7 @@ extension PostEndpoint: Endpoint {
         switch self {
         case .list: return nil
         case .user: return nil
+        case .comments: return nil
         }
     }
 }

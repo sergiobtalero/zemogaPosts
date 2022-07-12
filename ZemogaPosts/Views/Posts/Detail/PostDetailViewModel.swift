@@ -39,6 +39,10 @@ private extension PostDetailViewModel {
                         self?.loadUser(post)
                     }
                     
+                    if post.comments?.isEmpty ?? true {
+                        self?.loadComments(post)
+                    }
+                    
                     self?.post = post
                 })
             .store(in: &subscriptions)
@@ -47,6 +51,13 @@ private extension PostDetailViewModel {
     private func loadUser(_ post: Post) {
         Task {
             try await postsProvider.loadUserFromRemoteAndSaveLocally(of: post)
+        }
+    }
+    
+    
+    private func loadComments(_ post: Post) {
+        Task {
+            try await postsProvider.loadCommentsFromRemoteAndSaveLocally(of: post)
         }
     }
 }

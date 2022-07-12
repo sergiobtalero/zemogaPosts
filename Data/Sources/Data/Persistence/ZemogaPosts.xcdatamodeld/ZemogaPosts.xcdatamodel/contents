@@ -9,6 +9,19 @@
         <attribute name="zipcode" optional="YES" attributeType="String"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserCDEntity" inverseName="address" inverseEntity="UserCDEntity"/>
     </entity>
+    <entity name="CommentCDEntity" representedClassName="Data.CommentCDEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="body" optional="YES" attributeType="String"/>
+        <attribute name="email" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="postId" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="post" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PostCDEntity" inverseName="comments" inverseEntity="PostCDEntity"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
     <entity name="CompanyCDEntity" representedClassName="Data.CompanyCDEntity" syncable="YES" codeGenerationType="class">
         <attribute name="bs" optional="YES" attributeType="String"/>
         <attribute name="catchPhrase" optional="YES" attributeType="String"/>
@@ -26,6 +39,7 @@
         <attribute name="isFavorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="userId" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CommentCDEntity" inverseName="post" inverseEntity="CommentCDEntity"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserCDEntity" inverseName="posts" inverseEntity="UserCDEntity"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
@@ -52,7 +66,8 @@
     <elements>
         <element name="AddressCDEntity" positionX="9" positionY="54" width="128" height="14"/>
         <element name="CompanyCDEntity" positionX="-18" positionY="45" width="128" height="14"/>
-        <element name="PostCDEntity" positionX="-45" positionY="-27" width="128" height="119"/>
+        <element name="PostCDEntity" positionX="-45" positionY="-27" width="128" height="134"/>
         <element name="UserCDEntity" positionX="27" positionY="63" width="128" height="164"/>
+        <element name="CommentCDEntity" positionX="-9" positionY="90" width="128" height="119"/>
     </elements>
 </model>

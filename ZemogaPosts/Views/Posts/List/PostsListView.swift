@@ -39,7 +39,7 @@ struct PostsListView: View {
                     Text("Nothing to show")
                         .frame(maxWidth: .infinity,
                                maxHeight: .infinity)
-                        .background(Color.white)
+//                        .background(Color.white)
                         .padding(.bottom, -8)
                 }
                 
@@ -54,14 +54,12 @@ struct PostsListView: View {
                 .frame(maxWidth: .infinity)
                 .background(Color.red)
             }
-            .background(Color.green)
             .navigationTitle("Posts")
             .toolbar(content: {
                 Button {
                     print("Refresh tapped")
                 } label: {
                     Image(systemName: "arrow.clockwise")
-                        .foregroundColor(Color.white)
                 }
 
             })

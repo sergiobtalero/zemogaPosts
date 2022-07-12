@@ -28,12 +28,16 @@ extension PostsProvider: PostsProviderInterface {
                     context: PersistenceManager.shared.managedObjectContext)
         .map { entities in
             entities.map {
-                Post(id: Int($0.id),
+                let commentsEntities = $0.comments?.allObjects as? [CommentCDEntity]
+                let comments = commentsEntities?.compactMap { $0.asDomain }
+                
+                return Post(id: Int($0.id),
                      userID: Int($0.userId),
                      title: $0.title ?? "",
                      body: $0.body ?? "",
                      isFavorite: $0.isFavorite,
-                     user: nil)
+                     user: $0.user?.asDomain,
+                     comments: comments)
             }
         }
         .replaceError(with: [])
@@ -47,12 +51,17 @@ extension PostsProvider: PostsProviderInterface {
             guard let firstMatch = elements.first(where: { $0.id == id }) else {
                 return nil
             }
+            
+            let commentsEntities = firstMatch.comments?.allObjects as? [CommentCDEntity]
+            let comments = commentsEntities?.compactMap { $0.asDomain }
+            
             return Post(id: Int(firstMatch.id),
                         userID: Int(firstMatch.userId),
                         title: firstMatch.title ?? "",
                         body: firstMatch.body ?? "",
                         isFavorite: firstMatch.isFavorite,
-                        user: firstMatch.user?.asDomain)
+                        user: firstMatch.user?.asDomain,
+                        comments: comments)
         }
         .eraseToAnyPublisher()
     }
@@ -89,5 +98,21 @@ extension PostsProvider: PostsProviderInterface {
         try persistenceManager.updatePost(id: Int32(post.id), user: coreDataEntity)
         try persistenceManager.save()
         return entity.asDomain
+    }
+    
+    @discardableResult
+    public func loadCommentsFromRemoteAndSaveLocally(of post: Post) async throws -> [Comment] {
+        let entities: [CommentEntity] = try await postsService.request(endpoint: .comments(post.id))
+        var comments: [CommentCDEntity] = []
+        
+        for entity in entities {
+            let model = persistenceManager.createComment(from: entity)
+            comments.append(model)
+        }
+        
+        try persistenceManager.updatePost(id: Int32(post.id), comments: comments)
+        try persistenceManager.save()
+        
+        return comments.map { $0.asDomain }
     }
 }

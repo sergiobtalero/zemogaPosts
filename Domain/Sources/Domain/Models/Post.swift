@@ -14,6 +14,7 @@ public struct Post: Identifiable {
     public let body: String
     public let isFavorite: Bool
     public let user: User?
+    public let comments: [Comment]?
     
     // MARK: - Initializer
     public init(id: Int,
@@ -21,12 +22,14 @@ public struct Post: Identifiable {
                 title: String,
                 body: String,
                 isFavorite: Bool,
-                user: User?) {
+                user: User?,
+                comments: [Comment]?) {
         self.id = id
         self.userID = userID
         self.title = title
         self.body = body
         self.isFavorite = isFavorite
         self.user = user
+        self.comments = comments
     }
 }

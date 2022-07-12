@@ -39,3 +39,13 @@ extension CompanyCDEntity: DomainConvertible {
                 bs: bs ?? "")
     }
 }
+
+extension CommentCDEntity: DomainConvertible {
+    var asDomain: Comment {
+        Comment(postId: Int(postId),
+                id: Int(id),
+                name: name ?? "",
+                email: email ?? "",
+                body: body ?? "")
+    }
+}

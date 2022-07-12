@@ -25,9 +25,12 @@ public protocol PersistenceManagerInterface {
     func createUser(from entity: UserEntity) -> UserCDEntity
     func createAddress(from entity: AddressEntity) -> AddressCDEntity
     func createCompany(from entity: CompanyEntity) -> CompanyCDEntity
+    func createComment(from entity: CommentEntity) -> CommentCDEntity
     
     func getUser(id: Int) throws -> UserCDEntity
     
     func updatePost(id: Int32,
                     user: UserCDEntity) throws
+    func updatePost(id: Int32,
+                    comments: [CommentCDEntity]) throws
 }

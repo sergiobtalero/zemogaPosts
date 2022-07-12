@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1B5D8DBE287E2708000A6C9F /* PostDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8DBD287E2708000A6C9F /* PostDetailViewModel.swift */; };
+		1B5D8DC0287E35B2000A6C9F /* ModelsForPreviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8DBF287E35B2000A6C9F /* ModelsForPreviews.swift */; };
 		1BAEB443287DD5EC008671FD /* ZemogaPostsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAEB442287DD5EC008671FD /* ZemogaPostsApp.swift */; };
 		1BAEB447287DD5ED008671FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BAEB446287DD5ED008671FD /* Assets.xcassets */; };
 		1BAEB44A287DD5ED008671FD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BAEB449287DD5ED008671FD /* Preview Assets.xcassets */; };
@@ -39,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		1B5D8DBD287E2708000A6C9F /* PostDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewModel.swift; sourceTree = "<group>"; };
+		1B5D8DBF287E35B2000A6C9F /* ModelsForPreviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelsForPreviews.swift; sourceTree = "<group>"; };
 		1BAEB43F287DD5EC008671FD /* ZemogaPosts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZemogaPosts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BAEB442287DD5EC008671FD /* ZemogaPostsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZemogaPostsApp.swift; sourceTree = "<group>"; };
 		1BAEB446287DD5ED008671FD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				1BAEB449287DD5ED008671FD /* Preview Assets.xcassets */,
+				1B5D8DBF287E35B2000A6C9F /* ModelsForPreviews.swift */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 				1BAEB48B287E09D3008671FD /* PostDetailView.swift in Sources */,
 				1BAEB487287E015A008671FD /* PostsListView.swift in Sources */,
 				1B5D8DBE287E2708000A6C9F /* PostDetailViewModel.swift in Sources */,
+				1B5D8DC0287E35B2000A6C9F /* ModelsForPreviews.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
