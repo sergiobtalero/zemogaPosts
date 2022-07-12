@@ -23,7 +23,7 @@ public final class PostsService {
     }
     
     // MARK: - Methods
-    func request<T: Decodable>(endpoint: PostEndpoint) async throws -> T? {
+    func request<T: Decodable>(endpoint: PostEndpoint) async throws -> T {
         let urlString = Self.baseURL + endpoint.path
         
         guard let url = URL(string: urlString) else {

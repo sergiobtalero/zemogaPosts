@@ -12,18 +12,12 @@ enum PersistenceManagerError: Error {
     case missingRecord
 }
 
-public protocol PersistenceManagerInterface {
+protocol PersistenceManagerInterface {
     func save() throws
     func rollback()
-//    func createCounter(id: String,
-//                       title: String,
-//                       count: Int) throws
-//    func fetchAllCounters() throws -> [CounterEntity]
-//    func updateCounterCount(id: String,
-//                            newCount: Int32) throws
-//    func updateCounterSyncState(id: String,
-//                                syncState: Bool) throws
-//    func updateCounter(id: String,
-//                       newId: String) throws
-//    func deleteCounter(id: String) throws
+    
+    func createPost(userId: Int32,
+                    id: Int32,
+                    title: String,
+                    body: String) throws
 }
