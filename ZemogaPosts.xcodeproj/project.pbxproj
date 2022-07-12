@@ -12,6 +12,7 @@
 		1BAEB447287DD5ED008671FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BAEB446287DD5ED008671FD /* Assets.xcassets */; };
 		1BAEB44A287DD5ED008671FD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BAEB449287DD5ED008671FD /* Preview Assets.xcassets */; };
 		1BAEB454287DD5EE008671FD /* ZemogaPostsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAEB453287DD5EE008671FD /* ZemogaPostsTests.swift */; };
+		1BAEB46F287DDE0B008671FD /* Data in Frameworks */ = {isa = PBXBuildFile; productRef = 1BAEB46E287DDE0B008671FD /* Data */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BAEB46F287DDE0B008671FD /* Data in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +77,7 @@
 				1BAEB441287DD5EC008671FD /* ZemogaPosts */,
 				1BAEB452287DD5EE008671FD /* ZemogaPostsTests */,
 				1BAEB440287DD5EC008671FD /* Products */,
+				1BAEB46D287DDE0B008671FD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -115,6 +118,13 @@
 			path = ZemogaPostsTests;
 			sourceTree = "<group>";
 		};
+		1BAEB46D287DDE0B008671FD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -131,6 +141,9 @@
 			dependencies = (
 			);
 			name = ZemogaPosts;
+			packageProductDependencies = (
+				1BAEB46E287DDE0B008671FD /* Data */,
+			);
 			productName = ZemogaPosts;
 			productReference = 1BAEB43F287DD5EC008671FD /* ZemogaPosts.app */;
 			productType = "com.apple.product-type.application";
@@ -569,6 +582,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1BAEB46E287DDE0B008671FD /* Data */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Data;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1BAEB437287DD5EC008671FD /* Project object */;
 }

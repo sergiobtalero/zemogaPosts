@@ -12,5 +12,5 @@ struct PostEntity: Codable {
     let id: Int
     let title: String
     let body: String
-    let isFavorite: Bool
+    let isFavorite: Bool = false
 }
