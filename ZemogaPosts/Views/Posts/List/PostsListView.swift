@@ -22,18 +22,49 @@ struct PostsListView: View {
                     Text("Favorites").tag(1)
                 }
                 .pickerStyle(.segmented)
+                .padding([.bottom, .horizontal])
                 
-                List(viewModel.posts) { post in
-                    NavigationLink {
-                        PostDetailView(post: post)
-                    } label: {
-                        Text("\(post.title)")
-                    }
+                if !viewModel.posts.isEmpty {
+                    List(viewModel.posts) { post in
+                        NavigationLink {
+                            PostDetailView(post: post)
+                        } label: {
+                            Text("\(post.title)")
+                        }
 
+                    }
+                    .listStyle(.plain)
+                    .padding(.bottom, -8)
+                } else {
+                    Text("Nothing to show")
+                        .frame(maxWidth: .infinity,
+                               maxHeight: .infinity)
+                        .background(Color.white)
+                        .padding(.bottom, -8)
                 }
-                .listStyle(.plain)
+                
+                
+                Button(action: {
+                    print("Delete all tapped")
+                }, label: {
+                    Text("Delete all")
+                        .foregroundColor(Color.white)
+                })
+                .padding(.top)
+                .frame(maxWidth: .infinity)
+                .background(Color.red)
             }
+            .background(Color.green)
             .navigationTitle("Posts")
+            .toolbar(content: {
+                Button {
+                    print("Refresh")
+                } label: {
+                    Image(systemName: "arrow.clockwise")
+                        .foregroundColor(Color.white)
+                }
+
+            })
             .task {
                 viewModel.setupSubscriptions()
             }

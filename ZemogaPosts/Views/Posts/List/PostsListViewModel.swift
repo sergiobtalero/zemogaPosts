@@ -19,6 +19,7 @@ final class PostsListViewModel: ObservableObject {
     @Published var posts: [Post] = []
 }
 
+// MARK: - PostsScope
 extension PostsListViewModel {
     enum PostsScope: Int {
         case all
@@ -49,9 +50,11 @@ private extension PostsListViewModel {
                 }
                 
                 if scope == .all {
-                    self?.posts = posts
+                    self?.posts = posts.sorted(by: { $0.isFavorite && !$1.isFavorite })
                 } else {
-                    self?.posts = posts.filter { $0.isFavorite }
+                    self?.posts = posts
+                        .filter { $0.isFavorite }
+                        .sorted(by: { $0.isFavorite && !$1.isFavorite })
                 }
             }
             .store(in: &subscriptions)
