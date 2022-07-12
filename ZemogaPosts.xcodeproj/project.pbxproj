@@ -12,8 +12,6 @@
 		1BAEB447287DD5ED008671FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BAEB446287DD5ED008671FD /* Assets.xcassets */; };
 		1BAEB44A287DD5ED008671FD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BAEB449287DD5ED008671FD /* Preview Assets.xcassets */; };
 		1BAEB454287DD5EE008671FD /* ZemogaPostsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAEB453287DD5EE008671FD /* ZemogaPostsTests.swift */; };
-		1BAEB45E287DD5EE008671FD /* ZemogaPostsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAEB45D287DD5EE008671FD /* ZemogaPostsUITests.swift */; };
-		1BAEB460287DD5EE008671FD /* ZemogaPostsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAEB45F287DD5EE008671FD /* ZemogaPostsUITestsLaunchTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,8 +40,7 @@
 		1BAEB44F287DD5EE008671FD /* ZemogaPostsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZemogaPostsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BAEB453287DD5EE008671FD /* ZemogaPostsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZemogaPostsTests.swift; sourceTree = "<group>"; };
 		1BAEB459287DD5EE008671FD /* ZemogaPostsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZemogaPostsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		1BAEB45D287DD5EE008671FD /* ZemogaPostsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZemogaPostsUITests.swift; sourceTree = "<group>"; };
-		1BAEB45F287DD5EE008671FD /* ZemogaPostsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZemogaPostsUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		1BAEB46C287DD617008671FD /* Data */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Data; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,9 +71,9 @@
 		1BAEB436287DD5EC008671FD = {
 			isa = PBXGroup;
 			children = (
+				1BAEB46C287DD617008671FD /* Data */,
 				1BAEB441287DD5EC008671FD /* ZemogaPosts */,
 				1BAEB452287DD5EE008671FD /* ZemogaPostsTests */,
-				1BAEB45C287DD5EE008671FD /* ZemogaPostsUITests */,
 				1BAEB440287DD5EC008671FD /* Products */,
 			);
 			sourceTree = "<group>";
@@ -116,15 +113,6 @@
 				1BAEB453287DD5EE008671FD /* ZemogaPostsTests.swift */,
 			);
 			path = ZemogaPostsTests;
-			sourceTree = "<group>";
-		};
-		1BAEB45C287DD5EE008671FD /* ZemogaPostsUITests */ = {
-			isa = PBXGroup;
-			children = (
-				1BAEB45D287DD5EE008671FD /* ZemogaPostsUITests.swift */,
-				1BAEB45F287DD5EE008671FD /* ZemogaPostsUITestsLaunchTests.swift */,
-			);
-			path = ZemogaPostsUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -274,8 +262,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1BAEB45E287DD5EE008671FD /* ZemogaPostsUITests.swift in Sources */,
-				1BAEB460287DD5EE008671FD /* ZemogaPostsUITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
