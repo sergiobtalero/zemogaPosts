@@ -38,18 +38,6 @@ extension PersistenceManager: PersistenceManagerInterface {
         managedObjectContext.rollback()
     }
     
-    public func createPost(userId: Int32,
-                    id: Int32,
-                    title: String,
-                    body: String) throws {
-        let newPost = PostCDEntity(context: managedObjectContext)
-        newPost.userId = userId
-        newPost.id = id
-        newPost.title = title
-        newPost.body = body
-        newPost.isFavorite = false
-    }
-    
 //    public func createCounter(id: String,
 //                       title: String,
 //                       count: Int) throws {
@@ -120,4 +108,87 @@ extension PersistenceManager: PersistenceManagerInterface {
 //        
 //        try save()
 //    }
+}
+
+// MARK: - Create methods
+extension PersistenceManager {
+    public func createPost(userId: Int32,
+                           id: Int32,
+                           title: String,
+                           body: String) throws {
+        let newPost = PostCDEntity(context: managedObjectContext)
+        newPost.userId = userId
+        newPost.id = id
+        newPost.title = title
+        newPost.body = body
+        newPost.isFavorite = false
+    }
+    
+    @discardableResult
+    public func createUser(from entity: UserEntity) -> UserCDEntity {
+        let newUser = UserCDEntity(context: managedObjectContext)
+        newUser.id = Int32(entity.id)
+        newUser.name = entity.name
+        newUser.username = entity.username
+        newUser.email = entity.email
+        newUser.address = createAddress(from: entity.address)
+        newUser.company = createCompany(from: entity.company)
+        
+        return newUser
+    }
+    
+    @discardableResult
+    public func createAddress(from entity: AddressEntity) -> AddressCDEntity {
+        let newAddress = AddressCDEntity(context: managedObjectContext)
+        newAddress.street = entity.street
+        newAddress.suite = entity.suite
+        newAddress.city = entity.city
+        newAddress.zipcode = entity.zipcode
+        
+        if let lat = Double(entity.geo.lat),
+            let lng = Double(entity.geo.lng) {
+            newAddress.lat = lat
+            newAddress.lng = lng
+        }
+        
+        return newAddress
+    }
+    
+    @discardableResult
+    public func createCompany(from entity: CompanyEntity) -> CompanyCDEntity {
+        let newCompany = CompanyCDEntity(context: managedObjectContext)
+        newCompany.bs = entity.bs
+        newCompany.catchPhrase = entity.catchPhrase
+        newCompany.name = entity.name
+        
+        return newCompany
+    }
+}
+
+// MARK: - Fetch methods
+extension PersistenceManager {
+    public func getUser(id: Int) throws -> UserCDEntity {
+        let fetchRequest: NSFetchRequest<UserCDEntity> = UserCDEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %i", id)
+        
+        guard let result = try? managedObjectContext.fetch(fetchRequest).first else {
+            throw PersistenceManagerError.missingRecord
+        }
+        
+        return result
+    }
+}
+
+// MARK: - Update methods
+extension PersistenceManager {
+    public func updatePost(id: Int32,
+                           user: UserCDEntity) throws {
+        let fetchRequest: NSFetchRequest<PostCDEntity> = PostCDEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %i", id)
+        
+        guard let result = try? managedObjectContext.fetch(fetchRequest).first else {
+            throw PersistenceManagerError.missingRecord
+        }
+        result.setValue(user, forKey: "user")
+    }
 }

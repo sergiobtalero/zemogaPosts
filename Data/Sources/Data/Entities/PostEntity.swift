@@ -21,6 +21,7 @@ extension PostEntity: DomainConvertible {
              userID: userId,
              title: title,
              body: body,
-             isFavorite: false)
+             isFavorite: false,
+             user: nil)
     }
 }

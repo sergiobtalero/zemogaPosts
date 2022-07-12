@@ -13,17 +13,20 @@ public struct Post: Identifiable {
     public let title: String
     public let body: String
     public let isFavorite: Bool
+    public let user: User?
     
     // MARK: - Initializer
     public init(id: Int,
                 userID: Int,
                 title: String,
                 body: String,
-                isFavorite: Bool) {
+                isFavorite: Bool,
+                user: User?) {
         self.id = id
         self.userID = userID
         self.title = title
         self.body = body
         self.isFavorite = isFavorite
+        self.user = user
     }
 }

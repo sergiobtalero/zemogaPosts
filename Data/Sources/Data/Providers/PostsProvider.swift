@@ -32,7 +32,8 @@ extension PostsProvider: PostsProviderInterface {
                      userID: Int($0.userId),
                      title: $0.title ?? "",
                      body: $0.body ?? "",
-                     isFavorite: $0.isFavorite)
+                     isFavorite: $0.isFavorite,
+                     user: nil)
             }
         }
         .replaceError(with: [])

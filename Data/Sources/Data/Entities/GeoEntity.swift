@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct GeoEntity: Codable {
-    let lat, lng: String
+public struct GeoEntity: Codable {
+    public let lat, lng: String
 }

@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct UserEntity: Codable {
-    let id: Int
-    let name, username, email: String
-    let address: AddressEntity
-    let phone, website: String
-    let company: CompanyEntity
+public struct UserEntity: Codable {
+    public let id: Int
+    public let name, username, email: String
+    public let address: AddressEntity
+    public let phone, website: String
+    public let company: CompanyEntity
 }

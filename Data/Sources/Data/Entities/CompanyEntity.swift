@@ -6,8 +6,16 @@
 //
 
 import Foundation
+import Domain
 
-// MARK: - Company
-struct CompanyEntity: Codable {
-    let name, catchPhrase, bs: String
+public struct CompanyEntity: Codable {
+    public let name, catchPhrase, bs: String
+}
+
+extension CompanyEntity: DomainConvertible {
+    var asDomain: Company {
+        Company(name: name,
+                catchPhrase: catchPhrase,
+                bs: bs)
+    }
 }
