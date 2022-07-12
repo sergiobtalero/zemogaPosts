@@ -13,6 +13,7 @@
 		1BAEB44A287DD5ED008671FD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BAEB449287DD5ED008671FD /* Preview Assets.xcassets */; };
 		1BAEB454287DD5EE008671FD /* ZemogaPostsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAEB453287DD5EE008671FD /* ZemogaPostsTests.swift */; };
 		1BAEB475287DEB9E008671FD /* Domain in Frameworks */ = {isa = PBXBuildFile; productRef = 1BAEB474287DEB9E008671FD /* Domain */; };
+		1BAEB478287DF039008671FD /* Injector in Frameworks */ = {isa = PBXBuildFile; productRef = 1BAEB477287DF039008671FD /* Injector */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,7 @@
 		1BAEB459287DD5EE008671FD /* ZemogaPostsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZemogaPostsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BAEB46C287DD617008671FD /* Data */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Data; sourceTree = "<group>"; };
 		1BAEB473287DEAE9008671FD /* Domain */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Domain; sourceTree = "<group>"; };
+		1BAEB476287DEF68008671FD /* Injector */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Injector; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BAEB478287DF039008671FD /* Injector in Frameworks */,
 				1BAEB475287DEB9E008671FD /* Domain in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -74,6 +77,7 @@
 		1BAEB436287DD5EC008671FD = {
 			isa = PBXGroup;
 			children = (
+				1BAEB476287DEF68008671FD /* Injector */,
 				1BAEB46C287DD617008671FD /* Data */,
 				1BAEB473287DEAE9008671FD /* Domain */,
 				1BAEB441287DD5EC008671FD /* ZemogaPosts */,
@@ -145,6 +149,7 @@
 			name = ZemogaPosts;
 			packageProductDependencies = (
 				1BAEB474287DEB9E008671FD /* Domain */,
+				1BAEB477287DF039008671FD /* Injector */,
 			);
 			productName = ZemogaPosts;
 			productReference = 1BAEB43F287DD5EC008671FD /* ZemogaPosts.app */;
@@ -589,6 +594,10 @@
 		1BAEB474287DEB9E008671FD /* Domain */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Domain;
+		};
+		1BAEB477287DF039008671FD /* Injector */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Injector;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
