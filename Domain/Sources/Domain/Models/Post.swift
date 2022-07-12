@@ -12,7 +12,7 @@ public struct Post: Identifiable {
     public let userID: Int
     public let title: String
     public let body: String
-    public let isFavorite: Bool
+    public var isFavorite: Bool
     public let user: User?
     public let comments: [Comment]?
     

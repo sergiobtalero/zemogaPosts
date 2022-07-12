@@ -22,13 +22,22 @@ final class PostDetailViewModel: ObservableObject {
     }
 }
 
-// MARK: - Subscriptions
+// MARK: - Public methods
 extension PostDetailViewModel {
-    func setupSubscriptions(post: Post) {
+    func setupSubscriptions(post: Post,
+                            input: Input) {
         subsribeToPostPublisher(post)
+        subscribeToFavoritePublisher(input.favoriteTapPublisher)
+    }
+    
+    func saveChanges() {
+        if let post = post {
+            try? postsProvider.setFavorite(post.isFavorite, of: post)
+        }
     }
 }
 
+// MARK: - Private methods
 private extension PostDetailViewModel {
     private func subsribeToPostPublisher(_ post: Post) {
         postsProvider.getPostPublisher(id: post.id)
@@ -48,6 +57,14 @@ private extension PostDetailViewModel {
             .store(in: &subscriptions)
     }
     
+    private func subscribeToFavoritePublisher(_ publisher: AnyPublisher<Void, Never>) {
+        publisher
+            .sink { [weak self] _ in
+                self?.post?.isFavorite.toggle()
+            }
+            .store(in: &subscriptions)
+    }
+    
     private func loadUser(_ post: Post) {
         Task {
             try await postsProvider.loadUserFromRemoteAndSaveLocally(of: post)
@@ -59,5 +76,12 @@ private extension PostDetailViewModel {
         Task {
             try await postsProvider.loadCommentsFromRemoteAndSaveLocally(of: post)
         }
+    }
+}
+
+// MARK: - Output Builder
+extension PostDetailViewModel {
+    struct Input {
+        let favoriteTapPublisher: AnyPublisher<Void, Never>
     }
 }

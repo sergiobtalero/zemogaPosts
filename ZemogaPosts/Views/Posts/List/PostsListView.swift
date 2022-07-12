@@ -29,7 +29,13 @@ struct PostsListView: View {
                         NavigationLink {
                             PostDetailView(post: post)
                         } label: {
-                            Text("\(post.title)")
+                            HStack {
+                                if post.isFavorite {
+                                    Image(systemName: "star.fill")
+                                        .foregroundColor(Color.yellow)
+                                }
+                                Text("\(post.title)")
+                            }
                         }
 
                     }
@@ -39,7 +45,6 @@ struct PostsListView: View {
                     Text("Nothing to show")
                         .frame(maxWidth: .infinity,
                                maxHeight: .infinity)
-//                        .background(Color.white)
                         .padding(.bottom, -8)
                 }
                 

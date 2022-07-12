@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Comment: Identifiable {
+public struct Comment: Identifiable, Equatable {
     public let postId: Int
     public let id: Int
     public let name: String

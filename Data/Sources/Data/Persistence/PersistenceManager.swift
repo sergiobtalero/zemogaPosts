@@ -215,4 +215,16 @@ extension PersistenceManager {
         let commentsSet = NSSet(array: comments)
         result.setValue(commentsSet, forKey: "comments")
     }
+    
+    public func updateFavorite(newValue: Bool,
+                               postId: Int32) throws {
+        let fetchRequest: NSFetchRequest<PostCDEntity> = PostCDEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %i", postId)
+        
+        guard let result = try? managedObjectContext.fetch(fetchRequest).first else {
+            throw PersistenceManagerError.missingRecord
+        }
+        
+        result.setValue(newValue, forKey: "isFavorite")
+    }
 }

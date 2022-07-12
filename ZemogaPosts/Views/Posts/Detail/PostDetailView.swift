@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import Combine
 import Domain
 
 struct PostDetailView: View {
     @StateObject var viewModel = PostDetailViewModel()
+    
+    private let favoriteTapPublisher = PassthroughSubject<Void, Never>()
     
     let post: Post
     
@@ -43,11 +46,32 @@ struct PostDetailView: View {
                         Text(comment.body)
                     }
                 }
+                .animation(.easeIn, value: comments)
             }
         }
         .navigationTitle("Post")
+        .toolbar(content: {
+            Button {
+                favoriteTapPublisher.send(())
+            } label: {
+                if let post = viewModel.post {
+                    Image(systemName: post.isFavorite ? "star.fill" : "star")
+                        .foregroundColor(Color.yellow)
+                } else {
+                    Image(systemName: "star")
+                        .foregroundColor(Color.yellow)
+                }
+            }
+
+        })
+        .onDisappear {
+            viewModel.saveChanges()
+        }
         .task {
-            viewModel.setupSubscriptions(post: post)
+            let input = PostDetailViewModel.Input(favoriteTapPublisher: favoriteTapPublisher.eraseToAnyPublisher())
+            
+            viewModel.setupSubscriptions(post: post,
+                                         input: input)
         }
     }
 }

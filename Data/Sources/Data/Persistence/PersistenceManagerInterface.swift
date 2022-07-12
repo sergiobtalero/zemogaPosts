@@ -29,8 +29,7 @@ public protocol PersistenceManagerInterface {
     
     func getUser(id: Int) throws -> UserCDEntity
     
-    func updatePost(id: Int32,
-                    user: UserCDEntity) throws
-    func updatePost(id: Int32,
-                    comments: [CommentCDEntity]) throws
+    func updatePost(id: Int32, user: UserCDEntity) throws
+    func updatePost(id: Int32, comments: [CommentCDEntity]) throws
+    func updateFavorite(newValue: Bool, postId: Int32) throws
 }

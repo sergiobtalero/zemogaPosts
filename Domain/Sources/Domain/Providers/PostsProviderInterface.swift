@@ -19,4 +19,6 @@ public protocol PostsProviderInterface {
     func loadPostsFromRemoteAndSaveLocally() async throws -> [Post]
     func loadUserFromRemoteAndSaveLocally(of post: Post) async throws -> User
     func loadCommentsFromRemoteAndSaveLocally(of post: Post) async throws -> [Comment]
+    
+    func setFavorite(_ newValue: Bool, of post: Post) throws
 }

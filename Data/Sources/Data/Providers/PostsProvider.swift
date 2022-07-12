@@ -115,4 +115,10 @@ extension PostsProvider: PostsProviderInterface {
         
         return comments.map { $0.asDomain }
     }
+    
+    public func setFavorite(_ newValue: Bool, of post: Post) throws {
+        try persistenceManager.updateFavorite(newValue: newValue,
+                                              postId: Int32(post.id))
+        try persistenceManager.save()
+    }
 }
