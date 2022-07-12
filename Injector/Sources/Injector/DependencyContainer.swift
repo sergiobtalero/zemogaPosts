@@ -18,7 +18,7 @@ public final class DependencyContainer {
         shared.register(dependency)
     }
 
-    static func resolve<T>() -> T {
+    public static func resolve<T>() -> T {
         shared.resolve()
     }
 
@@ -39,22 +39,16 @@ public final class DependencyContainer {
 
 // MARK: - Register Dependency
 extension DependencyContainer {
-    public static func registerUseCases() {
-//        Self.registerFetchRemoteContribuitorsUseCase()
-//        Self.registerFetchRemoteRepositoriesUseCase()
+    public static func registerDependencies() {
+        Self.registerProviders()
     }
     
     public static func removeAllDependencies() {
         shared.dependencies.removeAll()
     }
     
-//    private static func registerFetchRemoteContribuitorsUseCase() {
-//        let useCase = FetchRemoteContribuitorsUseCase(provider: GitgubRepositoresProvider())
-//        shared.register(useCase as FetchRemoteContribuitorsUseCaseContract)
-//    }
-//    
-//    private static func registerFetchRemoteRepositoriesUseCase() {
-//        let useCase = FetchRemoteGithubRepositoriesUseCase(provider: GitgubRepositoresProvider())
-//        shared.register(useCase as FetchRemoteGithubRepositoriesUseCaseContract)
-//    }
+    private static func registerProviders() {
+        let postsProvider = PostsProvider()
+        shared.register(postsProvider as PostsProviderInterface)
+    }
 }

@@ -14,3 +14,13 @@ struct PostEntity: Codable {
     let title: String
     let body: String
 }
+
+extension PostEntity: DomainConvertible {
+    var asDomain: Post {
+        Post(id: id,
+             userID: userId,
+             title: title,
+             body: body,
+             isFavorite: false)
+    }
+}

@@ -8,12 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		1BAEB443287DD5EC008671FD /* ZemogaPostsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAEB442287DD5EC008671FD /* ZemogaPostsApp.swift */; };
-		1BAEB445287DD5EC008671FD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAEB444287DD5EC008671FD /* ContentView.swift */; };
 		1BAEB447287DD5ED008671FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BAEB446287DD5ED008671FD /* Assets.xcassets */; };
 		1BAEB44A287DD5ED008671FD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BAEB449287DD5ED008671FD /* Preview Assets.xcassets */; };
 		1BAEB454287DD5EE008671FD /* ZemogaPostsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAEB453287DD5EE008671FD /* ZemogaPostsTests.swift */; };
 		1BAEB475287DEB9E008671FD /* Domain in Frameworks */ = {isa = PBXBuildFile; productRef = 1BAEB474287DEB9E008671FD /* Domain */; };
 		1BAEB478287DF039008671FD /* Injector in Frameworks */ = {isa = PBXBuildFile; productRef = 1BAEB477287DF039008671FD /* Injector */; };
+		1BAEB486287E015A008671FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAEB480287E015A008671FD /* AppDelegate.swift */; };
+		1BAEB487287E015A008671FD /* PostsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAEB485287E015A008671FD /* PostsListView.swift */; };
+		1BAEB489287E0196008671FD /* PostsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAEB488287E0196008671FD /* PostsListViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +38,6 @@
 /* Begin PBXFileReference section */
 		1BAEB43F287DD5EC008671FD /* ZemogaPosts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZemogaPosts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BAEB442287DD5EC008671FD /* ZemogaPostsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZemogaPostsApp.swift; sourceTree = "<group>"; };
-		1BAEB444287DD5EC008671FD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1BAEB446287DD5ED008671FD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1BAEB449287DD5ED008671FD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1BAEB44F287DD5EE008671FD /* ZemogaPostsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZemogaPostsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -45,6 +46,9 @@
 		1BAEB46C287DD617008671FD /* Data */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Data; sourceTree = "<group>"; };
 		1BAEB473287DEAE9008671FD /* Domain */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Domain; sourceTree = "<group>"; };
 		1BAEB476287DEF68008671FD /* Injector */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Injector; sourceTree = "<group>"; };
+		1BAEB480287E015A008671FD /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		1BAEB485287E015A008671FD /* PostsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsListView.swift; sourceTree = "<group>"; };
+		1BAEB488287E0196008671FD /* PostsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsListViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,9 +105,10 @@
 			isa = PBXGroup;
 			children = (
 				1BAEB442287DD5EC008671FD /* ZemogaPostsApp.swift */,
-				1BAEB444287DD5EC008671FD /* ContentView.swift */,
 				1BAEB446287DD5ED008671FD /* Assets.xcassets */,
+				1BAEB47F287E015A008671FD /* AppDelegate */,
 				1BAEB448287DD5ED008671FD /* Preview Content */,
+				1BAEB481287E015A008671FD /* Views */,
 			);
 			path = ZemogaPosts;
 			sourceTree = "<group>";
@@ -129,6 +134,47 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1BAEB47F287E015A008671FD /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				1BAEB480287E015A008671FD /* AppDelegate.swift */,
+			);
+			path = AppDelegate;
+			sourceTree = "<group>";
+		};
+		1BAEB481287E015A008671FD /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1BAEB482287E015A008671FD /* Posts */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		1BAEB482287E015A008671FD /* Posts */ = {
+			isa = PBXGroup;
+			children = (
+				1BAEB483287E015A008671FD /* Detail */,
+				1BAEB484287E015A008671FD /* List */,
+			);
+			path = Posts;
+			sourceTree = "<group>";
+		};
+		1BAEB483287E015A008671FD /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		1BAEB484287E015A008671FD /* List */ = {
+			isa = PBXGroup;
+			children = (
+				1BAEB485287E015A008671FD /* PostsListView.swift */,
+				1BAEB488287E0196008671FD /* PostsListViewModel.swift */,
+			);
+			path = List;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,8 +311,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1BAEB445287DD5EC008671FD /* ContentView.swift in Sources */,
+				1BAEB489287E0196008671FD /* PostsListViewModel.swift in Sources */,
+				1BAEB486287E015A008671FD /* AppDelegate.swift in Sources */,
 				1BAEB443287DD5EC008671FD /* ZemogaPostsApp.swift in Sources */,
+				1BAEB487287E015A008671FD /* PostsListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

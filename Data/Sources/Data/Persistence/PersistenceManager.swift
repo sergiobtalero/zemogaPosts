@@ -25,7 +25,7 @@ public class PersistenceManager {
 
 // MARK: - PersistenceManagerInterface
 extension PersistenceManager: PersistenceManagerInterface {
-    func save() throws {
+    public func save() throws {
         do {
             try managedObjectContext.save()
         } catch {
@@ -34,11 +34,11 @@ extension PersistenceManager: PersistenceManagerInterface {
         }
     }
     
-    func rollback() {
+    public func rollback() {
         managedObjectContext.rollback()
     }
     
-    func createPost(userId: Int32,
+    public func createPost(userId: Int32,
                     id: Int32,
                     title: String,
                     body: String) throws {
@@ -47,8 +47,7 @@ extension PersistenceManager: PersistenceManagerInterface {
         newPost.id = id
         newPost.title = title
         newPost.body = body
-        
-        try save()
+        newPost.isFavorite = false
     }
     
 //    public func createCounter(id: String,

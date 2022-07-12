@@ -12,7 +12,7 @@ enum PersistenceManagerError: Error {
     case missingRecord
 }
 
-protocol PersistenceManagerInterface {
+public protocol PersistenceManagerInterface {
     func save() throws
     func rollback()
     
