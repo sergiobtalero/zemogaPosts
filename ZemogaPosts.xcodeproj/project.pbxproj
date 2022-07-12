@@ -16,6 +16,7 @@
 		1BAEB486287E015A008671FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAEB480287E015A008671FD /* AppDelegate.swift */; };
 		1BAEB487287E015A008671FD /* PostsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAEB485287E015A008671FD /* PostsListView.swift */; };
 		1BAEB489287E0196008671FD /* PostsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAEB488287E0196008671FD /* PostsListViewModel.swift */; };
+		1BAEB48B287E09D3008671FD /* PostDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAEB48A287E09D3008671FD /* PostDetail.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		1BAEB480287E015A008671FD /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1BAEB485287E015A008671FD /* PostsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsListView.swift; sourceTree = "<group>"; };
 		1BAEB488287E0196008671FD /* PostsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsListViewModel.swift; sourceTree = "<group>"; };
+		1BAEB48A287E09D3008671FD /* PostDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetail.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +166,7 @@
 		1BAEB483287E015A008671FD /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				1BAEB48A287E09D3008671FD /* PostDetail.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -314,6 +317,7 @@
 				1BAEB489287E0196008671FD /* PostsListViewModel.swift in Sources */,
 				1BAEB486287E015A008671FD /* AppDelegate.swift in Sources */,
 				1BAEB443287DD5EC008671FD /* ZemogaPostsApp.swift in Sources */,
+				1BAEB48B287E09D3008671FD /* PostDetail.swift in Sources */,
 				1BAEB487287E015A008671FD /* PostsListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

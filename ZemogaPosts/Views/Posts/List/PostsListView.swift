@@ -13,6 +13,7 @@ struct PostsListView: View {
     
     @State private var scope = 0
     
+    // MARK: - Body
     var body: some View {
         NavigationView {
             VStack {
@@ -23,13 +24,21 @@ struct PostsListView: View {
                 .pickerStyle(.segmented)
                 
                 List(viewModel.posts) { post in
-                    Text("\(post.title)")
+                    NavigationLink {
+                        PostDetailView(post: post)
+                    } label: {
+                        Text("\(post.title)")
+                    }
+
                 }
                 .listStyle(.plain)
             }
             .navigationTitle("Posts")
             .task {
                 viewModel.setupSubscriptions()
+            }
+            .onChange(of: scope) { newValue in
+                viewModel.toggleScope()
             }
         }
         

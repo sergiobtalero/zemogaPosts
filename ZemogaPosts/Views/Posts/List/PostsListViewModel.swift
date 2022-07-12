@@ -13,15 +13,27 @@ import Domain
 final class PostsListViewModel: ObservableObject {
     @Injected private var postsProvider: PostsProviderInterface
     
+    private var currentScope = CurrentValueSubject<PostsScope, Never>(.all)
     private var subscriptions = Set<AnyCancellable>()
     
     @Published var posts: [Post] = []
+}
+
+extension PostsListViewModel {
+    enum PostsScope: Int {
+        case all
+        case favorite
+    }
 }
 
 // MARK: - Public methods
 extension PostsListViewModel {
     func setupSubscriptions() {
         subscribeToPostsPublisher()
+    }
+    
+    func toggleScope() {
+        currentScope.value = currentScope.value == .all ? .favorite : .all
     }
 }
 
@@ -30,12 +42,17 @@ private extension PostsListViewModel {
     private func subscribeToPostsPublisher() {
         postsProvider.getPostsPublisher()
             .dropFirst()
-            .sink { [weak self] posts in
+            .combineLatest(currentScope)
+            .sink { [weak self] posts, scope in
                 if posts.isEmpty {
                     self?.loadPostsFromServer()
                 }
                 
-                self?.posts = posts
+                if scope == .all {
+                    self?.posts = posts
+                } else {
+                    self?.posts = posts.filter { $0.isFavorite }
+                }
             }
             .store(in: &subscriptions)
     }
