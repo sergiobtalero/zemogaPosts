@@ -9,10 +9,16 @@ import SwiftUI
 import Domain
 
 struct PostDetailView: View {
+    @StateObject var viewModel = PostDetailViewModel()
+    
     let post: Post
     
+    // MARK: - Body
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text("Hello, World! \(viewModel.post?.user?.name ?? "NOTHING")")
+            .task {
+                viewModel.setupSubscriptions(post: post)
+            }
     }
 }
 

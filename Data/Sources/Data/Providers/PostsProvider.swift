@@ -40,6 +40,23 @@ extension PostsProvider: PostsProviderInterface {
         .eraseToAnyPublisher()
     }
     
+    public func getPostPublisher(id: Int) -> AnyPublisher<Post, Error> {
+        CDPublisher(request: PostCDEntity.fetchRequest(),
+                    context: PersistenceManager.shared.managedObjectContext)
+        .compactMap { elements in
+            guard let firstMatch = elements.first(where: { $0.id == id }) else {
+                return nil
+            }
+            return Post(id: Int(firstMatch.id),
+                        userID: Int(firstMatch.userId),
+                        title: firstMatch.title ?? "",
+                        body: firstMatch.body ?? "",
+                        isFavorite: firstMatch.isFavorite,
+                        user: firstMatch.user?.asDomain)
+        }
+        .eraseToAnyPublisher()
+    }
+    
     public func loadPostsFromRemoteAndSaveLocally() async throws -> [Post] {
         do {
             let entities: [PostEntity] = try await postsService.request(endpoint: .list)
@@ -63,5 +80,14 @@ extension PostsProvider: PostsProviderInterface {
         } catch {
             throw PostsProviderError.serviceError
         }
+    }
+    
+    @discardableResult
+    public func loadUserFromRemoteAndSaveLocally(of post: Post) async throws -> User {
+        let entity: UserEntity = try await postsService.request(endpoint: .user(post.userID))
+        let coreDataEntity = persistenceManager.createUser(from: entity)
+        try persistenceManager.updatePost(id: Int32(post.id), user: coreDataEntity)
+        try persistenceManager.save()
+        return entity.asDomain
     }
 }

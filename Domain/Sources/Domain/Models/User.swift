@@ -12,20 +12,20 @@ public struct User: Identifiable {
     public let name: String
     public let username: String
     public let email: String
-    public let address: Address
+    public let address: Address?
     public let phone: String
     public let website: String
-    public let company: Company
+    public let company: Company?
     
     // MARK: - Initializer
     public init(id: Int,
                 name: String,
                 username: String,
                 email: String,
-                address: Address,
+                address: Address?,
                 phone: String,
                 website: String,
-                company: Company) {
+                company: Company?) {
         self.id = id
         self.name = name
         self.username = username

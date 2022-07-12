@@ -14,5 +14,8 @@ public enum PostsProviderError: Error {
 
 public protocol PostsProviderInterface {
     func getPostsPublisher() -> AnyPublisher<[Post], Never>
+    func getPostPublisher(id: Int) -> AnyPublisher<Post, Error>
+    
     func loadPostsFromRemoteAndSaveLocally() async throws -> [Post]
+    func loadUserFromRemoteAndSaveLocally(of post: Post) async throws -> User
 }

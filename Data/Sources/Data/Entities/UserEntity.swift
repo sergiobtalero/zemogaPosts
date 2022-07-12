@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Domain
 
 public struct UserEntity: Codable {
     public let id: Int
@@ -13,4 +14,17 @@ public struct UserEntity: Codable {
     public let address: AddressEntity
     public let phone, website: String
     public let company: CompanyEntity
+}
+
+extension UserEntity: DomainConvertible {
+    var asDomain: User {
+        User(id: id,
+             name: name,
+             username: username,
+             email: email,
+             address: address.asDomain,
+             phone: phone,
+             website: website,
+             company: company.asDomain)
+    }
 }
