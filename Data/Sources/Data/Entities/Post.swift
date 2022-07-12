@@ -6,11 +6,11 @@
 //
 
 import Foundation
+import Domain
 
 struct PostEntity: Codable {
     let userId: Int
     let id: Int
     let title: String
     let body: String
-    let isFavorite: Bool = false
 }
