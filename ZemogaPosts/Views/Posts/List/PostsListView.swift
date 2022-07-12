@@ -58,7 +58,7 @@ struct PostsListView: View {
             .navigationTitle("Posts")
             .toolbar(content: {
                 Button {
-                    print("Refresh")
+                    print("Refresh tapped")
                 } label: {
                     Image(systemName: "arrow.clockwise")
                         .foregroundColor(Color.white)
