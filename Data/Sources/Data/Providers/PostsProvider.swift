@@ -98,10 +98,22 @@ extension PostsProvider: PostsProviderInterface {
         selectedPost = model
     }
     
-    public func setFavorite(_ newValue: Bool, of post: Post) throws {
-        try persistenceManager.updateFavorite(newValue: newValue,
+    @MainActor public func updateSelectedPost() throws {
+        guard let post = selectedPost else {
+            throw PostsProviderError.serviceError
+        }
+        
+        try persistenceManager.updateFavorite(newValue: post.isFavorite,
                                               postId: Int32(post.id))
         try persistenceManager.save()
+        
+        let model = try persistenceManager.getPost(id: Int32(post.id))
+        
+        if let index = posts.firstIndex(where: { $0.id == model.id }) {
+            posts[index] = model
+        }
+        
+        selectedPost = nil
     }
     
     public func deleteAll() throws {

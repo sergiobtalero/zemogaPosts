@@ -21,8 +21,7 @@ public protocol PostsProviderInterface {
     @discardableResult func loadPostsFromRemoteAndSaveLocally() async throws -> [Post]
     func loadUserFromRemoteAndUpdateLocal() async throws
     func loadCommentsFromRemoteAndUpdateLocal() async throws
-    
-    func setFavorite(_ newValue: Bool, of post: Post) throws
+    func updateSelectedPost() throws
     
     func deleteAll() throws
 }

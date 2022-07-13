@@ -12,16 +12,11 @@ import Domain
 
 final class PostDetailViewModel: ObservableObject {
     @Injected private var postsProvider: PostsProviderInterface
-    
-    private var subscriptions = Set<AnyCancellable>()
 }
 
 // MARK: - Public methods
 extension PostDetailViewModel {
-    func setupSubscriptions(post: Post,
-                            input: Input) async {
-        subscribeToFavoritePublisher(input.favoriteTapPublisher)
-        
+    func setupSubscriptions(post: Post) async {
         postsProvider.selectedPost = post
         
         if postsProvider.selectedPost?.user == nil {
@@ -33,28 +28,11 @@ extension PostDetailViewModel {
         }
     }
     
-    func saveChanges() {
-        if let post = postsProvider.selectedPost {
-            try? postsProvider.setFavorite(post.isFavorite, of: post)
-        }
+    func saveChanges() throws {
+        try postsProvider.updateSelectedPost()
     }
-}
-
-// MARK: - Private methods
-private extension PostDetailViewModel {
-    private func subscribeToFavoritePublisher(_ publisher: AnyPublisher<Void, Never>) {
-        publisher
-            .sink { [weak self] _ in
-                print("HELLO")
-                self?.postsProvider.selectedPost?.isFavorite.toggle()
-            }
-            .store(in: &subscriptions)
-    }
-}
-
-// MARK: - Output Builder
-extension PostDetailViewModel {
-    struct Input {
-        let favoriteTapPublisher: AnyPublisher<Void, Never>
+    
+    func toggleFavorite() {
+        postsProvider.selectedPost?.isFavorite.toggle()
     }
 }

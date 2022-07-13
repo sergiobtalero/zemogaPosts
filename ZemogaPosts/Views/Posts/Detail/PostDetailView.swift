@@ -14,8 +14,6 @@ struct PostDetailView: View {
     @StateObject var viewModel = PostDetailViewModel()
     @EnvironmentObject var postsProvider: PostsProvider
     
-    private let favoriteTapPublisher = PassthroughSubject<Void, Never>()
-    
     let post: Post
     
     // MARK: - Initializer
@@ -59,7 +57,7 @@ struct PostDetailView: View {
         .navigationTitle("Post")
         .toolbar(content: {
             Button {
-                favoriteTapPublisher.send(())
+                viewModel.toggleFavorite()
             } label: {
                 if let post = postsProvider.selectedPost {
                     Image(systemName: post.isFavorite ? "star.fill" : "star")
@@ -72,13 +70,11 @@ struct PostDetailView: View {
 
         })
         .onDisappear {
-            viewModel.saveChanges()
+            try? viewModel.saveChanges()
         }
         .onAppear {
-            let input = PostDetailViewModel.Input(favoriteTapPublisher: favoriteTapPublisher.eraseToAnyPublisher())
             Task {
-                await viewModel.setupSubscriptions(post: post,
-                                                   input: input)
+                await viewModel.setupSubscriptions(post: post)
             }
         }
     }
