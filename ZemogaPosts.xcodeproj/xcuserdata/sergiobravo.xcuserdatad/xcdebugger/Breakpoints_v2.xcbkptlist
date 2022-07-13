@@ -3,4 +3,54 @@
    uuid = "F4ABB51B-C876-4965-B253-A58B2763A220"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "33FD2493-B9EA-41E8-8A51-DFE86B9C5AAF"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ZemogaPostsTests/Mocks/MockPostsProvider.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "updateSelectedPost()"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "33FD2493-B9EA-41E8-8A51-DFE86B9C5AAF - 1d1ad878401998df"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ZemogaPostsTests.MockPostsProvider.updateSelectedPost() throws -&gt; ()"
+                  moduleName = "ZemogaPostsTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sergiobravo/Desktop/ZemogaPosts/ZemogaPostsTests/Mocks/MockPostsProvider.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54"
+                  offsetFromSymbolStart = "4096">
+               </Location>
+               <Location
+                  uuid = "33FD2493-B9EA-41E8-8A51-DFE86B9C5AAF - 1d1ad878401998df"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ZemogaPostsTests.MockPostsProvider.updateSelectedPost() throws -&gt; ()"
+                  moduleName = "ZemogaPostsTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sergiobravo/Desktop/ZemogaPosts/ZemogaPostsTests/Mocks/MockPostsProvider.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54"
+                  offsetFromSymbolStart = "4140">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
