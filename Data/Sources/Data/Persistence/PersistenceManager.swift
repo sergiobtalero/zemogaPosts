@@ -14,10 +14,6 @@ public class PersistenceManager {
     
     var persistentContainer: NSPersistentContainer
     
-    var managedObjectContext: NSManagedObjectContext {
-        persistentContainer.viewContext
-    }
-    
     // MARK: - Initializer
     init(persistentContainer: NSPersistentContainer = NSPersistentContainer.main) {
         self.persistentContainer = persistentContainer
@@ -28,7 +24,7 @@ public class PersistenceManager {
 extension PersistenceManager: PersistenceManagerInterface {
     public func save() throws {
         do {
-            try managedObjectContext.save()
+            try persistentContainer.viewContext.save()
         } catch {
             rollback()
             throw PersistenceManagerError.operationFailed
@@ -36,7 +32,7 @@ extension PersistenceManager: PersistenceManagerInterface {
     }
     
     public func rollback() {
-        managedObjectContext.rollback()
+        persistentContainer.viewContext.rollback()
     }
     
 //    public func createCounter(id: String,
@@ -117,7 +113,7 @@ extension PersistenceManager {
                            id: Int32,
                            title: String,
                            body: String) throws {
-        let newPost = PostCDEntity(context: managedObjectContext)
+        let newPost = PostCDEntity(context: persistentContainer.viewContext)
         newPost.userId = userId
         newPost.id = id
         newPost.title = title
@@ -127,7 +123,7 @@ extension PersistenceManager {
     
     @discardableResult
     public func createUser(from entity: UserEntity) -> UserCDEntity {
-        let newUser = UserCDEntity(context: managedObjectContext)
+        let newUser = UserCDEntity(context: persistentContainer.viewContext)
         newUser.id = Int32(entity.id)
         newUser.name = entity.name
         newUser.username = entity.username
@@ -140,7 +136,7 @@ extension PersistenceManager {
     
     @discardableResult
     public func createAddress(from entity: AddressEntity) -> AddressCDEntity {
-        let newAddress = AddressCDEntity(context: managedObjectContext)
+        let newAddress = AddressCDEntity(context: persistentContainer.viewContext)
         newAddress.street = entity.street
         newAddress.suite = entity.suite
         newAddress.city = entity.city
@@ -157,7 +153,7 @@ extension PersistenceManager {
     
     @discardableResult
     public func createCompany(from entity: CompanyEntity) -> CompanyCDEntity {
-        let newCompany = CompanyCDEntity(context: managedObjectContext)
+        let newCompany = CompanyCDEntity(context: persistentContainer.viewContext)
         newCompany.bs = entity.bs
         newCompany.catchPhrase = entity.catchPhrase
         newCompany.name = entity.name
@@ -167,7 +163,7 @@ extension PersistenceManager {
     
     @discardableResult
     public func createComment(from entity: CommentEntity) -> CommentCDEntity {
-        let newComment = CommentCDEntity(context: managedObjectContext)
+        let newComment = CommentCDEntity(context: persistentContainer.viewContext)
         newComment.postId = Int32(entity.postId)
         newComment.id = Int32(entity.id)
         newComment.name = entity.name
@@ -183,7 +179,7 @@ extension PersistenceManager {
     public func getPosts() throws -> [PostCDEntity] {
         let fetchRequest: NSFetchRequest<PostCDEntity> = PostCDEntity.fetchRequest()
         
-        guard let result = try? managedObjectContext.fetch(fetchRequest) else {
+        guard let result = try? persistentContainer.viewContext.fetch(fetchRequest) else {
             throw PersistenceManagerError.missingRecord
         }
         
@@ -194,7 +190,7 @@ extension PersistenceManager {
         let fetchRequest: NSFetchRequest<PostCDEntity> = PostCDEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %i", id)
         
-        guard let result = try? managedObjectContext.fetch(fetchRequest).first else {
+        guard let result = try? persistentContainer.viewContext.fetch(fetchRequest).first else {
             throw PersistenceManagerError.missingRecord
         }
         
@@ -205,7 +201,7 @@ extension PersistenceManager {
         let fetchRequest: NSFetchRequest<UserCDEntity> = UserCDEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %i", id)
         
-        guard let result = try? managedObjectContext.fetch(fetchRequest).first else {
+        guard let result = try? persistentContainer.viewContext.fetch(fetchRequest).first else {
             throw PersistenceManagerError.missingRecord
         }
         
@@ -220,7 +216,7 @@ extension PersistenceManager {
         let fetchRequest: NSFetchRequest<PostCDEntity> = PostCDEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %i", id)
         
-        guard let result = try? managedObjectContext.fetch(fetchRequest).first else {
+        guard let result = try? persistentContainer.viewContext.fetch(fetchRequest).first else {
             throw PersistenceManagerError.missingRecord
         }
         result.setValue(user, forKey: "user")
@@ -231,7 +227,7 @@ extension PersistenceManager {
         let fetchRequest: NSFetchRequest<PostCDEntity> = PostCDEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %i", id)
         
-        guard let result = try? managedObjectContext.fetch(fetchRequest).first else {
+        guard let result = try? persistentContainer.viewContext.fetch(fetchRequest).first else {
             throw PersistenceManagerError.missingRecord
         }
         let commentsSet = NSSet(array: comments)
@@ -243,7 +239,7 @@ extension PersistenceManager {
         let fetchRequest: NSFetchRequest<PostCDEntity> = PostCDEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %i", postId)
         
-        guard let result = try? managedObjectContext.fetch(fetchRequest).first else {
+        guard let result = try? persistentContainer.viewContext.fetch(fetchRequest).first else {
             throw PersistenceManagerError.missingRecord
         }
         
@@ -254,15 +250,16 @@ extension PersistenceManager {
 // MARK: - Delete methods
 extension PersistenceManager {
     public func deleteAll() throws {
-        let storeContainer = persistentContainer.persistentStoreCoordinator
+        // Create Fetch Request
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PostCDEntity")
 
-        for store in storeContainer.persistentStores {
-            try storeContainer.destroyPersistentStore(
-                at: store.url!,
-                ofType: store.type,
-                options: nil
-            )
+        // Create Batch Delete Request
+        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+        do {
+            try persistentContainer.viewContext.execute(batchDeleteRequest)
+        } catch {
+            // Error Handling
         }
-        persistentContainer = NSPersistentContainer.main
     }
 }

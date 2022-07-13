@@ -42,7 +42,6 @@ struct PostDetailView: View {
                 } else {
                     Text("No author website")
                 }
-                
             }
             
             if let comments = postsProvider.selectedPost?.comments, !comments.isEmpty {
@@ -51,7 +50,6 @@ struct PostDetailView: View {
                         Text(comment.body)
                     }
                 }
-                .animation(.easeIn, value: comments)
             }
         }
         .navigationTitle("Post")
