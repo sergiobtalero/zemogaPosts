@@ -82,10 +82,12 @@ struct PostsListView: View {
                 }
 
             })
-            .task {
+            .onAppear {
                 let input = PostsListViewModel.Input(deleteAllButtonTapPublisher: deleteAllButtonTapPublisher.eraseToAnyPublisher(),
                                                      refreshButtonTapPublisher: refreshButtonTapPublisher.eraseToAnyPublisher())
-                await viewModel.setupSubscriptions(input: input)
+                Task {
+                    await viewModel.setupSubscriptions(input: input)
+                }
             }
         }
         

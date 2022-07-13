@@ -77,8 +77,8 @@ extension PostsProvider: PostsProviderInterface {
         selectedPost = model
     }
     
-    @discardableResult
-    public func loadCommentsFromRemoteAndUpdateLocal() async throws {
+    
+    @MainActor public func loadCommentsFromRemoteAndUpdateLocal() async throws {
         guard let post = selectedPost else {
             throw PostsProviderError.serviceError
         }

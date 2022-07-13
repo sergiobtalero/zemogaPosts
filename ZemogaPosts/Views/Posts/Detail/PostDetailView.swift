@@ -74,10 +74,12 @@ struct PostDetailView: View {
         .onDisappear {
             viewModel.saveChanges()
         }
-        .task {
+        .onAppear {
             let input = PostDetailViewModel.Input(favoriteTapPublisher: favoriteTapPublisher.eraseToAnyPublisher())
-            await viewModel.setupSubscriptions(post: post,
-                                               input: input)
+            Task {
+                await viewModel.setupSubscriptions(post: post,
+                                                   input: input)
+            }
         }
     }
 }

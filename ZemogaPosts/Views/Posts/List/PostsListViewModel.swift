@@ -20,8 +20,11 @@ final class PostsListViewModel: ObservableObject {
 extension PostsListViewModel {
     func setupSubscriptions(input: Input) async {
         try? await subscribeToPostsPublisher()
-        subscribeToDeleteAllTapPublisher(input.deleteAllButtonTapPublisher)
-        subscribeToRefreshPublisher(input.refreshButtonTapPublisher)
+        
+        if subscriptions.isEmpty {
+            subscribeToDeleteAllTapPublisher(input.deleteAllButtonTapPublisher)
+            subscribeToRefreshPublisher(input.refreshButtonTapPublisher)
+        }
     }
 }
 
@@ -44,10 +47,11 @@ private extension PostsListViewModel {
     }
     
     private func subscribeToRefreshPublisher(_ publisher: AnyPublisher<Void, Never>) {
-        publisher.sink { _ in
-            print("Refresh tappped")
-        }
-        .store(in: &subscriptions)
+        publisher
+            .sink { _ in
+                print("Refresh tappped")
+            }
+            .store(in: &subscriptions)
     }
     
     private func loadPostsFromServer() {

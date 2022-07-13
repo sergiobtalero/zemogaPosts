@@ -45,6 +45,7 @@ private extension PostDetailViewModel {
     private func subscribeToFavoritePublisher(_ publisher: AnyPublisher<Void, Never>) {
         publisher
             .sink { [weak self] _ in
+                print("HELLO")
                 self?.postsProvider.selectedPost?.isFavorite.toggle()
             }
             .store(in: &subscriptions)
