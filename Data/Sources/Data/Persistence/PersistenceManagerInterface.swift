@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Domain
 
 enum PersistenceManagerError: Error {
     case operationFailed
@@ -27,9 +28,13 @@ public protocol PersistenceManagerInterface {
     func createCompany(from entity: CompanyEntity) -> CompanyCDEntity
     func createComment(from entity: CommentEntity) -> CommentCDEntity
     
+    func getPosts() throws -> [PostCDEntity]
+    func getPost(id: Int32) throws -> Post
     func getUser(id: Int) throws -> UserCDEntity
     
     func updatePost(id: Int32, user: UserCDEntity) throws
     func updatePost(id: Int32, comments: [CommentCDEntity]) throws
     func updateFavorite(newValue: Bool, postId: Int32) throws
+    
+    func deleteAll() throws
 }

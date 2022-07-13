@@ -13,51 +13,41 @@ import Domain
 final class PostsListViewModel: ObservableObject {
     @Injected private var postsProvider: PostsProviderInterface
     
-    private var currentScope = CurrentValueSubject<PostsScope, Never>(.all)
     private var subscriptions = Set<AnyCancellable>()
-    
-    @Published var posts: [Post] = []
-}
-
-// MARK: - PostsScope
-extension PostsListViewModel {
-    enum PostsScope: Int {
-        case all
-        case favorite
-    }
 }
 
 // MARK: - Public methods
 extension PostsListViewModel {
-    func setupSubscriptions() {
-        subscribeToPostsPublisher()
-    }
-    
-    func toggleScope() {
-        currentScope.value = currentScope.value == .all ? .favorite : .all
+    func setupSubscriptions(input: Input) async {
+        try? await subscribeToPostsPublisher()
+        subscribeToDeleteAllTapPublisher(input.deleteAllButtonTapPublisher)
+        subscribeToRefreshPublisher(input.refreshButtonTapPublisher)
     }
 }
 
 // MARK: - Private methods
 private extension PostsListViewModel {
-    private func subscribeToPostsPublisher() {
-        postsProvider.getPostsPublisher()
-            .dropFirst()
-            .combineLatest(currentScope)
-            .sink { [weak self] posts, scope in
-                if posts.isEmpty {
-                    self?.loadPostsFromServer()
-                }
-                
-                if scope == .all {
-                    self?.posts = posts.sorted(by: { $0.isFavorite && !$1.isFavorite })
-                } else {
-                    self?.posts = posts
-                        .filter { $0.isFavorite }
-                        .sorted(by: { $0.isFavorite && !$1.isFavorite })
+    private func subscribeToPostsPublisher() async throws {
+        try? await postsProvider.getPosts()
+    }
+    
+    private func subscribeToDeleteAllTapPublisher(_ publisher: AnyPublisher<Void, Never>) {
+        publisher
+            .sink { [weak self] _ in
+                do {
+                    try self?.postsProvider.deleteAll()
+                } catch {
+                    print("Error")
                 }
             }
             .store(in: &subscriptions)
+    }
+    
+    private func subscribeToRefreshPublisher(_ publisher: AnyPublisher<Void, Never>) {
+        publisher.sink { _ in
+            print("Refresh tappped")
+        }
+        .store(in: &subscriptions)
     }
     
     private func loadPostsFromServer() {
@@ -65,5 +55,13 @@ private extension PostsListViewModel {
             let posts = try await postsProvider.loadPostsFromRemoteAndSaveLocally()
             print(posts.count)
         }
+    }
+}
+
+// MARK: - Output builder
+extension PostsListViewModel {
+    struct Input {
+        let deleteAllButtonTapPublisher: AnyPublisher<Void, Never>
+        let refreshButtonTapPublisher: AnyPublisher<Void, Never>
     }
 }

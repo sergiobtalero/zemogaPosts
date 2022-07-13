@@ -13,12 +13,16 @@ public enum PostsProviderError: Error {
 }
 
 public protocol PostsProviderInterface {
-    func getPostsPublisher() -> AnyPublisher<[Post], Never>
-    func getPostPublisher(id: Int) -> AnyPublisher<Post, Error>
+    var posts: [Post] { get set }
+    var selectedPost: Post? { get set }
     
-    func loadPostsFromRemoteAndSaveLocally() async throws -> [Post]
-    func loadUserFromRemoteAndSaveLocally(of post: Post) async throws -> User
-    func loadCommentsFromRemoteAndSaveLocally(of post: Post) async throws -> [Comment]
+    func getPosts() async throws
+    
+    @discardableResult func loadPostsFromRemoteAndSaveLocally() async throws -> [Post]
+    func loadUserFromRemoteAndUpdateLocal() async throws
+    func loadCommentsFromRemoteAndUpdateLocal() async throws
     
     func setFavorite(_ newValue: Bool, of post: Post) throws
+    
+    func deleteAll() throws
 }

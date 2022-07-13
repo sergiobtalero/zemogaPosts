@@ -49,3 +49,18 @@ extension CommentCDEntity: DomainConvertible {
                 body: body ?? "")
     }
 }
+
+extension PostCDEntity: DomainConvertible {
+    var asDomain: Post {
+        let commentsEntities = comments?.allObjects as? [CommentCDEntity]
+        let comments = commentsEntities?.compactMap { $0.asDomain }
+        
+        return Post(id: Int(id),
+                    userID: Int(userId),
+                    title: title ?? "",
+                    body: body ?? "",
+                    isFavorite: isFavorite,
+                    user: user?.asDomain,
+                    comments: comments)
+    }
+}

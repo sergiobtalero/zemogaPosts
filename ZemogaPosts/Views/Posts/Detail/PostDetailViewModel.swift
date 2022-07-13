@@ -14,24 +14,27 @@ final class PostDetailViewModel: ObservableObject {
     @Injected private var postsProvider: PostsProviderInterface
     
     private var subscriptions = Set<AnyCancellable>()
-    
-    @Published var post: Post?
-    
-    deinit {
-        subscriptions.removeAll()
-    }
 }
 
 // MARK: - Public methods
 extension PostDetailViewModel {
     func setupSubscriptions(post: Post,
-                            input: Input) {
-        subsribeToPostPublisher(post)
+                            input: Input) async {
         subscribeToFavoritePublisher(input.favoriteTapPublisher)
+        
+        postsProvider.selectedPost = post
+        
+        if postsProvider.selectedPost?.user == nil {
+            try? await postsProvider.loadUserFromRemoteAndUpdateLocal()
+        }
+        
+        if postsProvider.selectedPost?.comments?.isEmpty ?? true {
+            try? await postsProvider.loadCommentsFromRemoteAndUpdateLocal()
+        }
     }
     
     func saveChanges() {
-        if let post = post {
+        if let post = postsProvider.selectedPost {
             try? postsProvider.setFavorite(post.isFavorite, of: post)
         }
     }
@@ -39,43 +42,12 @@ extension PostDetailViewModel {
 
 // MARK: - Private methods
 private extension PostDetailViewModel {
-    private func subsribeToPostPublisher(_ post: Post) {
-        postsProvider.getPostPublisher(id: post.id)
-            .sink(
-                receiveCompletion: { _ in },
-                receiveValue: { [weak self] post in
-                    if post.user == nil {
-                        self?.loadUser(post)
-                    }
-                    
-                    if post.comments?.isEmpty ?? true {
-                        self?.loadComments(post)
-                    }
-                    
-                    self?.post = post
-                })
-            .store(in: &subscriptions)
-    }
-    
     private func subscribeToFavoritePublisher(_ publisher: AnyPublisher<Void, Never>) {
         publisher
             .sink { [weak self] _ in
-                self?.post?.isFavorite.toggle()
+                self?.postsProvider.selectedPost?.isFavorite.toggle()
             }
             .store(in: &subscriptions)
-    }
-    
-    private func loadUser(_ post: Post) {
-        Task {
-            try await postsProvider.loadUserFromRemoteAndSaveLocally(of: post)
-        }
-    }
-    
-    
-    private func loadComments(_ post: Post) {
-        Task {
-            try await postsProvider.loadCommentsFromRemoteAndSaveLocally(of: post)
-        }
     }
 }
 

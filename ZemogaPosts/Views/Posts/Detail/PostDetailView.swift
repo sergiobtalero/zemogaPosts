@@ -8,31 +8,38 @@
 import SwiftUI
 import Combine
 import Domain
+import Data
 
 struct PostDetailView: View {
     @StateObject var viewModel = PostDetailViewModel()
+    @EnvironmentObject var postsProvider: PostsProvider
     
     private let favoriteTapPublisher = PassthroughSubject<Void, Never>()
     
     let post: Post
     
+    // MARK: - Initializer
+    init(post: Post) {
+        self.post = post
+    }
+    
     // MARK: - Body
     var body: some View {
         Form {
             Section("Title") {
-                Text(viewModel.post?.title ?? "No title")
+                Text(postsProvider.selectedPost?.title ?? "No title")
             }
             
             Section("Description") {
-                Text(viewModel.post?.body ?? "No description")
+                Text(postsProvider.selectedPost?.body ?? "No description")
             }
             
             Section("User") {
-                Text(viewModel.post?.user?.name ?? "No author name")
-                Text(viewModel.post?.user?.email ?? "No author email")
-                Text(viewModel.post?.user?.address?.street ?? "No author address")
+                Text(postsProvider.selectedPost?.user?.name ?? "No author name")
+                Text(postsProvider.selectedPost?.user?.email ?? "No author email")
+                Text(postsProvider.selectedPost?.user?.address?.street ?? "No author address")
                 
-                if let website = viewModel.post?.user?.website, !website.isEmpty {
+                if let website = postsProvider.selectedPost?.user?.website, !website.isEmpty {
                     Text(website)
                 } else {
                     Text("No author website")
@@ -40,7 +47,7 @@ struct PostDetailView: View {
                 
             }
             
-            if let comments = viewModel.post?.comments, !comments.isEmpty {
+            if let comments = postsProvider.selectedPost?.comments, !comments.isEmpty {
                 Section("Comments") {
                     ForEach(comments) { comment in
                         Text(comment.body)
@@ -54,7 +61,7 @@ struct PostDetailView: View {
             Button {
                 favoriteTapPublisher.send(())
             } label: {
-                if let post = viewModel.post {
+                if let post = postsProvider.selectedPost {
                     Image(systemName: post.isFavorite ? "star.fill" : "star")
                         .foregroundColor(Color.yellow)
                 } else {
@@ -69,9 +76,8 @@ struct PostDetailView: View {
         }
         .task {
             let input = PostDetailViewModel.Input(favoriteTapPublisher: favoriteTapPublisher.eraseToAnyPublisher())
-            
-            viewModel.setupSubscriptions(post: post,
-                                         input: input)
+            await viewModel.setupSubscriptions(post: post,
+                                               input: input)
         }
     }
 }

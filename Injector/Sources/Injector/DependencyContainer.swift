@@ -39,16 +39,18 @@ public final class DependencyContainer {
 
 // MARK: - Register Dependency
 extension DependencyContainer {
-    public static func registerDependencies() {
-        Self.registerProviders()
+    @discardableResult
+    public static func getPostsProvider() -> PostsProvider {
+        if let dependency = shared.dependencies.first(where: { $0.key == "PostsProviderInterface" }) as? PostsProvider {
+            return dependency
+        }
+        
+        let provider = PostsProvider()
+        shared.register(provider as PostsProviderInterface)
+        return provider
     }
     
     public static func removeAllDependencies() {
         shared.dependencies.removeAll()
-    }
-    
-    private static func registerProviders() {
-        let postsProvider = PostsProvider()
-        shared.register(postsProvider as PostsProviderInterface)
     }
 }

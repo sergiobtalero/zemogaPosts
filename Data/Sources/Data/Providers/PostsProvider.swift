@@ -13,6 +13,9 @@ public final class PostsProvider: ObservableObject {
     private let postsService: PostsService
     private let persistenceManager: PersistenceManagerInterface
     
+    @Published public var posts: [Post] = []
+    @Published public var selectedPost: Post?
+    
     // MARK: - Initializer
     public init(postsService: PostsService = PostsService(),
                 persistenceManager: PersistenceManagerInterface = PersistenceManager.shared) {
@@ -22,48 +25,17 @@ public final class PostsProvider: ObservableObject {
 }
 
 // MARK: - PostsProviderInterface
-extension PostsProvider: PostsProviderInterface {
-    public func getPostsPublisher() -> AnyPublisher<[Post], Never> {
-        CDPublisher(request: PostCDEntity.fetchRequest(),
-                    context: PersistenceManager.shared.managedObjectContext)
-        .map { entities in
-            entities.map {
-                let commentsEntities = $0.comments?.allObjects as? [CommentCDEntity]
-                let comments = commentsEntities?.compactMap { $0.asDomain }
-                
-                return Post(id: Int($0.id),
-                     userID: Int($0.userId),
-                     title: $0.title ?? "",
-                     body: $0.body ?? "",
-                     isFavorite: $0.isFavorite,
-                     user: $0.user?.asDomain,
-                     comments: comments)
-            }
+extension PostsProvider: PostsProviderInterface {    
+    @MainActor public func getPosts() async throws {
+        let entities = try persistenceManager.getPosts()
+        
+        guard entities.isEmpty else {
+            posts = entities.map { $0.asDomain }
+            return
         }
-        .replaceError(with: [])
-        .eraseToAnyPublisher()
-    }
-    
-    public func getPostPublisher(id: Int) -> AnyPublisher<Post, Error> {
-        CDPublisher(request: PostCDEntity.fetchRequest(),
-                    context: PersistenceManager.shared.managedObjectContext)
-        .compactMap { elements in
-            guard let firstMatch = elements.first(where: { $0.id == id }) else {
-                return nil
-            }
-            
-            let commentsEntities = firstMatch.comments?.allObjects as? [CommentCDEntity]
-            let comments = commentsEntities?.compactMap { $0.asDomain }
-            
-            return Post(id: Int(firstMatch.id),
-                        userID: Int(firstMatch.userId),
-                        title: firstMatch.title ?? "",
-                        body: firstMatch.body ?? "",
-                        isFavorite: firstMatch.isFavorite,
-                        user: firstMatch.user?.asDomain,
-                        comments: comments)
-        }
-        .eraseToAnyPublisher()
+        
+        let fetchedPosts = try await loadPostsFromRemoteAndSaveLocally()
+        posts = fetchedPosts
     }
     
     public func loadPostsFromRemoteAndSaveLocally() async throws -> [Post] {
@@ -91,34 +63,49 @@ extension PostsProvider: PostsProviderInterface {
         }
     }
     
-    @discardableResult
-    public func loadUserFromRemoteAndSaveLocally(of post: Post) async throws -> User {
+    @MainActor public func loadUserFromRemoteAndUpdateLocal() async throws {
+        guard let post = selectedPost else {
+            throw PostsProviderError.serviceError
+        }
         let entity: UserEntity = try await postsService.request(endpoint: .user(post.userID))
         let coreDataEntity = persistenceManager.createUser(from: entity)
+        
         try persistenceManager.updatePost(id: Int32(post.id), user: coreDataEntity)
         try persistenceManager.save()
-        return entity.asDomain
+        
+        let model = try persistenceManager.getPost(id: Int32(post.id))
+        selectedPost = model
     }
     
     @discardableResult
-    public func loadCommentsFromRemoteAndSaveLocally(of post: Post) async throws -> [Comment] {
+    public func loadCommentsFromRemoteAndUpdateLocal() async throws {
+        guard let post = selectedPost else {
+            throw PostsProviderError.serviceError
+        }
         let entities: [CommentEntity] = try await postsService.request(endpoint: .comments(post.id))
-        var comments: [CommentCDEntity] = []
         
-        for entity in entities {
+        var coreDataEntities: [CommentCDEntity] = []
+        
+        entities.forEach { entity in
             let model = persistenceManager.createComment(from: entity)
-            comments.append(model)
+            coreDataEntities.append(model)
         }
         
-        try persistenceManager.updatePost(id: Int32(post.id), comments: comments)
+        try persistenceManager.updatePost(id: Int32(post.id), comments: coreDataEntities)
         try persistenceManager.save()
         
-        return comments.map { $0.asDomain }
+        let model = try persistenceManager.getPost(id: Int32(post.id))
+        selectedPost = model
     }
     
     public func setFavorite(_ newValue: Bool, of post: Post) throws {
         try persistenceManager.updateFavorite(newValue: newValue,
                                               postId: Int32(post.id))
         try persistenceManager.save()
+    }
+    
+    public func deleteAll() throws {
+        try persistenceManager.deleteAll()
+        posts = []
     }
 }

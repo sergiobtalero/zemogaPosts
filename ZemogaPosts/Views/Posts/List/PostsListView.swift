@@ -6,12 +6,26 @@
 //
 
 import SwiftUI
+import Combine
 import Domain
+import Data
 
 struct PostsListView: View {
     @StateObject var viewModel = PostsListViewModel()
+    @EnvironmentObject var postsProvider: PostsProvider
     
     @State private var scope = 0
+    
+    private let deleteAllButtonTapPublisher = PassthroughSubject<Void, Never>()
+    private let refreshButtonTapPublisher = PassthroughSubject<Void, Never>()
+    
+    private var renderedPosts: [Post] {
+        if scope == 0 {
+            return postsProvider.posts
+        } else {
+            return postsProvider.posts.filter { $0.isFavorite }
+        }
+    }
     
     // MARK: - Body
     var body: some View {
@@ -24,8 +38,8 @@ struct PostsListView: View {
                 .pickerStyle(.segmented)
                 .padding([.bottom, .horizontal])
                 
-                if !viewModel.posts.isEmpty {
-                    List(viewModel.posts) { post in
+                if !postsProvider.posts.isEmpty {
+                    List(renderedPosts) { post in
                         NavigationLink {
                             PostDetailView(post: post)
                         } label: {
@@ -50,7 +64,7 @@ struct PostsListView: View {
                 
                 
                 Button(action: {
-                    print("Delete all tapped")
+                    deleteAllButtonTapPublisher.send(())
                 }, label: {
                     Text("Delete all")
                         .foregroundColor(Color.white)
@@ -62,17 +76,16 @@ struct PostsListView: View {
             .navigationTitle("Posts")
             .toolbar(content: {
                 Button {
-                    print("Refresh tapped")
+                    refreshButtonTapPublisher.send(())
                 } label: {
                     Image(systemName: "arrow.clockwise")
                 }
 
             })
             .task {
-                viewModel.setupSubscriptions()
-            }
-            .onChange(of: scope) { newValue in
-                viewModel.toggleScope()
+                let input = PostsListViewModel.Input(deleteAllButtonTapPublisher: deleteAllButtonTapPublisher.eraseToAnyPublisher(),
+                                                     refreshButtonTapPublisher: refreshButtonTapPublisher.eraseToAnyPublisher())
+                await viewModel.setupSubscriptions(input: input)
             }
         }
         

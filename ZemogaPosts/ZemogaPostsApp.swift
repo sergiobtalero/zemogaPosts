@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Injector
 
 @main
 struct ZemogaPostsApp: App {
@@ -14,6 +15,7 @@ struct ZemogaPostsApp: App {
     var body: some Scene {
         WindowGroup {
             PostsListView()
+                .environmentObject(Injector.DependencyContainer.getPostsProvider())
         }
     }
 }

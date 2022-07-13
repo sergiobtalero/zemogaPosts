@@ -7,11 +7,12 @@
 
 import Foundation
 import CoreData
+import Domain
 
 public class PersistenceManager {
     public static let shared = PersistenceManager()
     
-    let persistentContainer: NSPersistentContainer
+    var persistentContainer: NSPersistentContainer
     
     var managedObjectContext: NSManagedObjectContext {
         persistentContainer.viewContext
@@ -179,6 +180,27 @@ extension PersistenceManager {
 
 // MARK: - Fetch methods
 extension PersistenceManager {
+    public func getPosts() throws -> [PostCDEntity] {
+        let fetchRequest: NSFetchRequest<PostCDEntity> = PostCDEntity.fetchRequest()
+        
+        guard let result = try? managedObjectContext.fetch(fetchRequest) else {
+            throw PersistenceManagerError.missingRecord
+        }
+        
+        return result
+    }
+    
+    public func getPost(id: Int32) throws -> Post {
+        let fetchRequest: NSFetchRequest<PostCDEntity> = PostCDEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %i", id)
+        
+        guard let result = try? managedObjectContext.fetch(fetchRequest).first else {
+            throw PersistenceManagerError.missingRecord
+        }
+        
+        return result.asDomain
+    }
+    
     public func getUser(id: Int) throws -> UserCDEntity {
         let fetchRequest: NSFetchRequest<UserCDEntity> = UserCDEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %i", id)
@@ -226,5 +248,21 @@ extension PersistenceManager {
         }
         
         result.setValue(newValue, forKey: "isFavorite")
+    }
+}
+
+// MARK: - Delete methods
+extension PersistenceManager {
+    public func deleteAll() throws {
+        let storeContainer = persistentContainer.persistentStoreCoordinator
+
+        for store in storeContainer.persistentStores {
+            try storeContainer.destroyPersistentStore(
+                at: store.url!,
+                ofType: store.type,
+                options: nil
+            )
+        }
+        persistentContainer = NSPersistentContainer.main
     }
 }
