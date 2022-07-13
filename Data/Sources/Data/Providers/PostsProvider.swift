@@ -31,14 +31,16 @@ extension PostsProvider: PostsProviderInterface {
         
         guard entities.isEmpty else {
             posts = entities.map { $0.asDomain }
+                .sorted(by: { $0.isFavorite && !$1.isFavorite })
             return
         }
         
         let fetchedPosts = try await loadPostsFromRemoteAndSaveLocally()
         posts = fetchedPosts
+            .sorted(by: { $0.isFavorite && !$1.isFavorite })
     }
     
-    public func loadPostsFromRemoteAndSaveLocally() async throws -> [Post] {
+    @MainActor public func loadPostsFromRemoteAndSaveLocally() async throws -> [Post] {
         do {
             let entities: [PostEntity] = try await postsService.request(endpoint: .list)
             
@@ -57,6 +59,10 @@ extension PostsProvider: PostsProviderInterface {
             }
             
             try persistenceManager.save()
+            
+            posts = models
+                .sorted(by: { $0.isFavorite && !$1.isFavorite })
+            
             return models
         } catch {
             throw PostsProviderError.serviceError
@@ -111,6 +117,9 @@ extension PostsProvider: PostsProviderInterface {
         
         if let index = posts.firstIndex(where: { $0.id == model.id }) {
             posts[index] = model
+            
+            posts = posts
+                .sorted(by: { $0.isFavorite && !$1.isFavorite })
         }
         
         selectedPost = nil

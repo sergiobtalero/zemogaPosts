@@ -50,7 +50,7 @@ private extension PostsListViewModel {
         publisher
             .sink { _ in
                 Task {
-                    try? await self.loadPosts()
+                    self.loadPostsFromServer()
                 }
             }
             .store(in: &subscriptions)
@@ -59,7 +59,6 @@ private extension PostsListViewModel {
     private func loadPostsFromServer() {
         Task {
             let posts = try await postsProvider.loadPostsFromRemoteAndSaveLocally()
-            print(posts.count)
         }
     }
 }
