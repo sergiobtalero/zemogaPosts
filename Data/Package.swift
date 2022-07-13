@@ -22,6 +22,10 @@ let package = Package(
             dependencies: ["Domain"]),
         .testTarget(
             name: "DataTests",
-            dependencies: ["Data"]),
+            dependencies: ["Data"],
+            resources: [
+//                .copy("../../Sources/Data/Persistence/ZemogaPosts.momd"),
+                .copy("JSONS/PostsList.json")
+            ])
     ]
 )
