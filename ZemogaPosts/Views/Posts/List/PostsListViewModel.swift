@@ -11,7 +11,7 @@ import Combine
 import Domain
 
 final class PostsListViewModel: ObservableObject {
-    @Injected private var postsProvider: PostsProviderInterface
+    @Injected var postsProvider: PostsProviderInterface
     
     private var subscriptions = Set<AnyCancellable>()
 }
@@ -58,7 +58,7 @@ private extension PostsListViewModel {
     
     private func loadPostsFromServer() {
         Task {
-            let posts = try await postsProvider.loadPostsFromRemoteAndSaveLocally()
+            _ = try await postsProvider.loadPostsFromRemoteAndSaveLocally()
         }
     }
 }

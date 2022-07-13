@@ -8,7 +8,7 @@
 import Foundation
 import Domain
 
-struct PostEntity: Codable {
+public struct PostEntity: Codable {
     let userId: Int
     let id: Int
     let title: String
@@ -16,7 +16,7 @@ struct PostEntity: Codable {
 }
 
 extension PostEntity: DomainConvertible {
-    var asDomain: Post {
+    public var asDomain: Post {
         Post(id: id,
              userID: userId,
              title: title,

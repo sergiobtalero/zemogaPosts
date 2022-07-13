@@ -18,7 +18,7 @@ public struct CommentEntity: Codable {
 
 // MARK: - DomainConvertible
 extension CommentEntity: DomainConvertible {
-    var asDomain: Comment {
+    public var asDomain: Comment {
         Comment(postId: postId,
                 id: id,
                 name: name,

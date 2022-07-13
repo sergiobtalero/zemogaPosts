@@ -17,7 +17,7 @@ public struct UserEntity: Codable {
 }
 
 extension UserEntity: DomainConvertible {
-    var asDomain: User {
+    public var asDomain: User {
         User(id: id,
              name: name,
              username: username,

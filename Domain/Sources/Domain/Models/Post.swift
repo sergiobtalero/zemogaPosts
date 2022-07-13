@@ -13,8 +13,8 @@ public struct Post: Identifiable {
     public let title: String
     public let body: String
     public var isFavorite: Bool
-    public let user: User?
-    public let comments: [Comment]?
+    public var user: User?
+    public var comments: [Comment]?
     
     // MARK: - Initializer
     public init(id: Int,
