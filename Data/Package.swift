@@ -28,7 +28,8 @@ let package = Package(
             ],
             resources: [
                 .copy("JSONS/PostsList.json"),
-                .copy("JSONS/User.json")
+                .copy("JSONS/User.json"),
+                .copy("JSONS/Comments.json")
             ])
     ]
 )
