@@ -7,6 +7,10 @@
 
 import CoreData
 
+enum BundleReference {
+    static let bundle = Bundle.module
+}
+
 extension NSPersistentContainer {
     static let main: NSPersistentContainer = {
         let modelName = "ZemogaPosts"

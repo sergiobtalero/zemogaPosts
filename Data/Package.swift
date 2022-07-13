@@ -14,7 +14,8 @@ let package = Package(
             targets: ["Data"]),
     ],
     dependencies: [
-        .package(name: "Domain", path: "../Domain")
+        .package(name: "Domain", path: "../Domain"),
+        .package(url: "https://github.com/AliSoftware/OHHTTPStubs", .upToNextMajor(from: "9.1.0"))
     ],
     targets: [
         .target(
@@ -22,10 +23,12 @@ let package = Package(
             dependencies: ["Domain"]),
         .testTarget(
             name: "DataTests",
-            dependencies: ["Data"],
+            dependencies: ["Data",
+                           .product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs")
+            ],
             resources: [
-//                .copy("../../Sources/Data/Persistence/ZemogaPosts.momd"),
-                .copy("JSONS/PostsList.json")
+                .copy("JSONS/PostsList.json"),
+                .copy("JSONS/User.json")
             ])
     ]
 )
