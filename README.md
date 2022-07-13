@@ -23,5 +23,8 @@ App itself, written fully in SwiftUI whith a "sort-of approach" with MVVM, as th
 ## Libraries used
 Only one external framework was used: OHHTPStubs, used for stubbing responses on tests of Data layer.
 
+## Testing
+Data and app has tests, with a coverage enough to highlight different testing skills.
+
 ## How to run the project
 Clone and wait for the packages to finish load. Make sure to have ZemogaPosts selected as scheme and a iOS simulator or device connected.
